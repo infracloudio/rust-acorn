@@ -6,15 +6,12 @@ readme:      "./README.md"
 args: {
 	// Name of the database to create. Defaults to "instance"
 	dbName: "rust-sqlx"
-  	// Provide user for mysql. If the value is not provided, it will default to 
-  dbUser: "root"
 }
 
 services: db: {
     image: "ghcr.io/acorn-io/postgres:v15.#-#"
     serviceArgs: {
         dbName: args.dbName
-        dbUser: "root"
     }
 
 }
