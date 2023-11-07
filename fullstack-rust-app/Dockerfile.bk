@@ -1,0 +1,22 @@
+FROM rust:1.73-slim-bullseye AS build
+
+RUN apt --yes update && apt --yes install git pkg-config curl libssl-dev ca-certificates curl gnupg
+RUN cargo install trunk wasm-bindgen-cli sqlx-cli
+RUN rustup target add wasm32-unknown-unknown
+
+WORKDIR /usr/src/fullstack-rust-app
+COPY . .
+
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - 
+RUN apt-get install -y nodejs
+
+RUN cd frontend && trunk serve --port 3000
+RUN cd backend 
+
+#FROM gcr.io/distroless/cc-debian10
+
+#COPY --from=build /usr/src/fullstack-rust-app/target/release/backend /usr/local/bin/backend
+#COPY --from=build /usr/src/fullstack-rust-app/frontend/dist /usr/local/bin/dist
+
+#WORKDIR /usr/local/bin
+#CMD ["backend"]

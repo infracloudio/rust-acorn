@@ -1,0 +1,50 @@
+name:        "Rust Sample Acorn"
+description: "Acorn running a sample Rust app"
+readme:      "./README.md"
+
+
+args: {
+	// Name of the database to create. Defaults to "instance"
+	dbName: "rust-sqlx"
+  	// Provide user for mysql. If the value is not provided, it will default to 
+  dbUser: "root"
+}
+
+services: db: {
+    image: "ghcr.io/acorn-io/postgres:v15.#-#"
+    serviceArgs: {
+        dbName: args.dbName
+        dbUser: "root"
+    }
+
+}
+
+containers: {
+  backend: {
+    image: "ghcr.io/aashimodi14/rust-backend:v2"
+    env: {
+    "POSTGRES_HOST": "@{service.db.address}"
+    "POSTGRES_PORT": "@{service.db.port.5432}"
+    "POSTGRES_USER": "@{service.db.secrets.admin.username}"
+    "POSTGRES_PASSWORD":"@{service.db.secrets.admin.password}"
+    "POSTGRES_DB":"@{service.db.data.dbName}"
+    "DATABASE_URL":"postgresql://@{service.db.secrets.admin.username}:@{service.db.secrets.admin.password}@@{service.db.address}:5432?schema=public"
+    "PGADMIN_DEFAULT_EMAIL":"admin@admin.com"
+    "PGADMIN_DEFAULT_PASSWORD":"password123"
+    }
+    ports: {
+      expose: "8000/http"
+    }
+    cmd: ["/bin/sh", "-c", "cd backend && sqlx migrate run; cargo run"]
+    consumes: ["db"]
+  }
+  frontend: {
+    image: "ghcr.io/aashimodi14/rust-frontend:v2"
+    cmd: ["/bin/sh", "-c", "cd frontend && trunk serve --address 0.0.0.0 --port 3000"]
+    ports: {
+        publish: "3000/http"
+    }
+    dependsOn: ["backend"]
+  }
+}
+
