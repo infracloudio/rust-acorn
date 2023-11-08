@@ -13,12 +13,11 @@ services: db: {
     serviceArgs: {
         dbName: args.dbName
     }
-
 }
 
 containers: {
   backend: {
-    image: "ghcr.io/aashimodi14/rust-backend:v2"
+    image: "ghcr.io/aashimodi14/rust-backend:v4"
     env: {
     "POSTGRES_HOST": "@{service.db.address}"
     "POSTGRES_PORT": "@{service.db.port.5432}"
@@ -30,17 +29,22 @@ containers: {
     "PGADMIN_DEFAULT_PASSWORD":"password123"
     }
     ports: {
-      expose: "8000/http"
+      publish: "8000:8000/http"
     }
-    cmd: ["/bin/sh", "-c", "cd backend && sqlx migrate run; cargo run"]
+    memory: 1500Mi
+    cmd: ["/bin/sh", "-c", "cd /usr/src/fullstack-rust-app/backend && sqlx migrate run; cargo run --bin backend -- --port 8000"]
     consumes: ["db"]
   }
   frontend: {
-    image: "ghcr.io/aashimodi14/rust-frontend:v2"
-    cmd: ["/bin/sh", "-c", "cd frontend && trunk serve --address 0.0.0.0 --port 3000"]
+    image: "ghcr.io/aashimodi14/rust-frontend:v4"
+    cmd: ["/bin/sh", "-c", "cd /usr/src/fullstack-rust-app/frontend && BACKEND_SERVER=$BACKEND_SERVER trunk serve --address 0.0.0.0 --port 3000"]
     ports: {
-        publish: "3000/http"
+        publish: "3000:3000/http"
     }
+    env: {
+      "BACKEND_SERVER": "@{services.backend.endpoint}"
+    }
+    memory: 2048Mi
     dependsOn: ["backend"]
   }
 }

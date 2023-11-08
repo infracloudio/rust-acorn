@@ -4,7 +4,7 @@ RUN apt --yes update && apt --yes install git pkg-config curl libssl-dev ca-cert
 RUN cargo install trunk wasm-bindgen-cli
 RUN rustup target add wasm32-unknown-unknown
 
-WORKDIR /usr/src/fullstack-rust-app
+WORKDIR /usr/src/
 COPY . .
 
 RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - 
