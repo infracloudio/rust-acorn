@@ -4,6 +4,7 @@ mod schema;
 
 use actix_cors::Cors;
 use actix_web::middleware::Logger;
+use actix_web_lab::web::spa;
 use actix_web::{http::header, web, App, HttpServer};
 use dotenv::dotenv;
 use sqlx::{postgres::PgPoolOptions, Pool, Postgres};
@@ -53,6 +54,13 @@ async fn main() -> std::io::Result<()> {
             .configure(handler::config)
             .wrap(cors)
             .wrap(Logger::default())
+            .service(
+                spa()
+                    .index_file("./dist/index.html")
+                    .static_resources_mount("/")
+                    .static_resources_location("./dist")
+                    .finish(),
+            )
     })
     .bind(("0.0.0.0", 8000))?
     .run()

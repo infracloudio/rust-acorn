@@ -17,7 +17,7 @@ services: db: {
 
 containers: {
   backend: {
-    image: "ghcr.io/aashimodi14/rust-backend:v4"
+    image: "ghcr.io/infracloudio/rust-backend:v1"
     env: {
     "POSTGRES_HOST": "@{service.db.address}"
     "POSTGRES_PORT": "@{service.db.port.5432}"
@@ -31,12 +31,12 @@ containers: {
     ports: {
       publish: "8000:8000/http"
     }
-    memory: 1500Mi
+    memory: 1048Mi
     cmd: ["/bin/sh", "-c", "cd /usr/src/fullstack-rust-app/backend && sqlx migrate run; cargo run --bin backend -- --port 8000"]
     consumes: ["db"]
   }
   frontend: {
-    image: "ghcr.io/aashimodi14/rust-frontend:v4"
+    image: "ghcr.io/infracloudio/rust-frontend:v1"
     cmd: ["/bin/sh", "-c", "cd /usr/src/fullstack-rust-app/frontend && BACKEND_SERVER=$BACKEND_SERVER trunk serve --address 0.0.0.0 --port 3000"]
     ports: {
         publish: "3000:3000/http"
@@ -44,7 +44,7 @@ containers: {
     env: {
       "BACKEND_SERVER": "@{services.backend.endpoint}"
     }
-    memory: 2048Mi
+    memory: 1048Mi
     dependsOn: ["backend"]
   }
 }
