@@ -6,3 +6,5 @@ RUN rustup target add wasm32-unknown-unknown
 
 WORKDIR /usr/src/
 COPY . .
+
+ENTRYPOINT ["/bin/sh", "-c", "cd /usr/src/fullstack-rust-app/backend && sqlx migrate run; cargo run --bin backend -- --port 8000"]

@@ -6,25 +6,27 @@ readme:      "./README.md"
 args: {
 	// Name of the database to create. Defaults to "instance"
 	dbName: "rust-sqlx"
+  dbUser: "rust"
 }
 
 services: db: {
     image: "ghcr.io/acorn-io/postgres:v15.#-#"
     serviceArgs: {
         dbName: args.dbName
+        dbUser: args.dbUser
     }
 }
 
 containers: {
   backend: {
-    image: "ghcr.io/infracloudio/rust-backend:v1"
+    image: "ghcr.io/infracloudio/rust-backend:v2"
     env: {
     "POSTGRES_HOST": "@{service.db.address}"
     "POSTGRES_PORT": "@{service.db.port.5432}"
     "POSTGRES_USER": "@{service.db.secrets.admin.username}"
     "POSTGRES_PASSWORD":"@{service.db.secrets.admin.password}"
     "POSTGRES_DB":"@{service.db.data.dbName}"
-    "DATABASE_URL":"postgresql://@{service.db.secrets.admin.username}:@{service.db.secrets.admin.password}@@{service.db.address}:5432?schema=public"
+    "DATABASE_URL":"postgresql://@{service.db.secrets.admin.username}:@{service.db.secrets.admin.password}@@{service.db.address}:5432/@{service.db.data.dbName}?schema=public"
     "PGADMIN_DEFAULT_EMAIL":"admin@admin.com"
     "PGADMIN_DEFAULT_PASSWORD":"password123"
     }
@@ -32,7 +34,6 @@ containers: {
       publish: "8000:8000/http"
     }
     memory: 1048Mi
-    cmd: ["/bin/sh", "-c", "cd /usr/src/fullstack-rust-app/backend && sqlx migrate run; cargo run --bin backend -- --port 8000"]
     consumes: ["db"]
   }
   frontend: {
