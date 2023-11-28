@@ -1,11 +1,13 @@
 name:        "Rust Sample Acorn"
 description: "Acorn running a sample Rust app"
 readme:      "./README.md"
+icon:        "./rust_icon.png"
 
 
 args: {
-	// Name of the database to create. Defaults to "instance"
+	// Name of the database to create. Defaults to "rust-sqlx"
 	dbName: "rust-sqlx"
+  // Name of the database user to create. Defaults to "rust"
   dbUser: "rust"
 }
 
@@ -43,6 +45,7 @@ containers: {
         publish: "3000:3000/http"
     }
     env: {
+      // Frontend forwards the requests to the Backend Container Service Endpoint
       "BACKEND_SERVER": "@{services.backend.endpoint}"
     }
     memory: 1048Mi

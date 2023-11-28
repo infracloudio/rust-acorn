@@ -1,6 +1,7 @@
 # Acorn for a Rust sample app - Feedback App
 
-This is a Fullstack Rust app created in using Actix, SQLX and Postgres as Backend and Yew-TailwindCSS as its frontend. The user can give feedback and comments using this SPA web app. 
+This is a Fullstack Rust app created in using Actix, SQLX and Postgres as Backend and Yew-TailwindCSS as its frontend. The user can provide feedback ratings and comments using this SPA web app. The application utilises the Acorn Postgres DB service to store the feedback data where the dbName and dbUser are customisable. Once deployed, the SPA web app is available on the Frontend Service Endpoint. 
+
 
 ## What is Rust?
 
