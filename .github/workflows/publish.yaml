@@ -1,0 +1,29 @@
+name: Publish Acorn image
+on: 
+  workflow_dispatch:
+  push:
+    tags:
+      - "v[0-9]*"
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: acorn-io/actions-setup@v2
+        with:
+          acorn-version: "main"
+      - name: Login to GHCR
+        uses: acorn-io/actions-login@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and Publish with signature
+        run: |
+          TAG=${GITHUB_REF#refs/*/}
+          acorn build --platform linux/amd64 --platform linux/arm64 --push -t ghcr.io/infracloudio/rust-acorn:${TAG} .

@@ -1,0 +1,55 @@
+name:        "Rust Sample Acorn"
+description: "Acorn running a sample Rust app"
+readme:      "./README.md"
+icon:        "./rust_icon.png"
+
+
+args: {
+	// Name of the database to create. Defaults to "rust-sqlx"
+	dbName: "rust-sqlx"
+  // Name of the database user to create. Defaults to "rust"
+  dbUser: "rust"
+}
+
+services: db: {
+    image: "ghcr.io/acorn-io/postgres:v15.#-#"
+    serviceArgs: {
+        dbName: args.dbName
+        dbUser: args.dbUser
+    }
+}
+
+containers: {
+  backend: {
+    image: "ghcr.io/infracloudio/rust-backend:v2"
+    env: {
+    "POSTGRES_HOST": "@{service.db.address}"
+    "POSTGRES_PORT": "@{service.db.port.5432}"
+    "POSTGRES_USER": "@{service.db.secrets.admin.username}"
+    "POSTGRES_PASSWORD":"@{service.db.secrets.admin.password}"
+    "POSTGRES_DB":"@{service.db.data.dbName}"
+    "DATABASE_URL":"postgresql://@{service.db.secrets.admin.username}:@{service.db.secrets.admin.password}@@{service.db.address}:5432/@{service.db.data.dbName}?schema=public"
+    "PGADMIN_DEFAULT_EMAIL":"admin@admin.com"
+    "PGADMIN_DEFAULT_PASSWORD":"password123"
+    }
+    ports: {
+      publish: "8000:8000/http"
+    }
+    memory: 1048Mi
+    consumes: ["db"]
+  }
+  frontend: {
+    image: "ghcr.io/infracloudio/rust-frontend:v1"
+    cmd: ["/bin/sh", "-c", "cd /usr/src/fullstack-rust-app/frontend && BACKEND_SERVER=$BACKEND_SERVER trunk serve --address 0.0.0.0 --port 3000"]
+    ports: {
+        publish: "3000:3000/http"
+    }
+    env: {
+      // Frontend forwards the requests to the Backend Container Service Endpoint
+      "BACKEND_SERVER": "@{services.backend.endpoint}"
+    }
+    memory: 1048Mi
+    dependsOn: ["backend"]
+  }
+}
+

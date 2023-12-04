@@ -1,0 +1,13 @@
+FROM rust:1.73-slim-bullseye
+
+RUN apt --yes update && apt --yes install git pkg-config curl libssl-dev ca-certificates curl gnupg
+RUN cargo install trunk wasm-bindgen-cli
+RUN rustup target add wasm32-unknown-unknown
+
+WORKDIR /usr/src/
+COPY . .
+
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - 
+RUN apt-get install -y nodejs
+
+RUN npx tailwindcss-cli@latest
