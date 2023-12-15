@@ -1,18 +1,14 @@
 # Deploying Rust Feedback App on Acorn
 
-Have you heard about [Mastodon](https://joinmastodon.org/) , the decentralized social network? It's a bit like Twitter, but with a twist. Instead of one big platform, Mastodon is a network of independent servers, each with its own community, all connected through a shared system called the "fediverse". These large number of nodes run independently which are known as instances, each with its own code of conduct, terms of service, privacy policy, privacy options, and content moderation policies.
+Rust has been Stack Overflow's most loved language for four years in a row and rightfully so. Embrace Rust for a future-proof coding experience. This systems programming language prioritizes safety, performance, and concurrency. With a syntax that's both intuitive and expressive, Rust prevents common bugs and ensures memory safety without sacrificing speed. Its vibrant community, extensive documentation, and ecosystem make it an ideal choice for building robust, efficient, and scalable applications in today's fast-evolving tech landscape.
 
-It is a free and open-source software for running self-hosted social networking services. If you're thinking about hosting your own Rust Feedback App, that's a cool idea! You can create your own online space where people can join and chat dedicated to specific topic or common interest. But here's the catch: hosting your Rust Feedback App comes with some challenges, managing infratructure complexity and so on.
+Rust + Containers = Your apps on steroids – sturdy, speedy, and ready for anything! Welcome to the era of Cloud-Native tools – the unsung heroes transforming how we build, deploy, and scale apps! But using Cloud-Native tools such as Kubernetes comes with a challenge to manage the complexities of the infrastructure and security. Meet Acorn Cloud Platform, your ticket to seamless, scalable, and secure cloud operations. Acorn simplifies complex workflows, accelerates development, and ensures reliability with a user-friendly interface and cutting-edge features.Deploying on Acorn is simple as defining your application with an [Acornfile](https://docs.acorn.io/reference/acornfile), generating a deployable Acorn Image. 
 
-This is where [Acorn](http://www.acorn.io) comes in, it is a user-friendly cloud platform, simplifies deploying modern cloud-native apps with a free sandbox accessible through GitHub account. It streamlines development workflows using mainstream container tools, providing the power of Kubernetes and Terraform without complexity.
+Today, we will explore how you can deploy an example Rust Feedback application on Acorn Cloud Platform. This is a Fullstack Rust app created in using Actix, SQLX and Postgres as Backend and Yew-TailwindCSS as its frontend DB service to store the feedback data. The user can provide feedback ratings and comments using this SPA web app. 
 
-Deploying on Acorn is simple as defining your application with an [Acornfile](https://docs.acorn.io/reference/acornfile), generating a deployable Acorn Image.
+If you want to skip to the end, just click below button (Click on `Customize before deploying` to update default arguments such as DBName and DBUser) to launch the app immediately in a free sandbox environment. All you need is a GitHub ID to create an account.
 
-############################################################################################################
-
-In this tutorial, we'll see how to set up your Rust Feedback App.
-
-If you want to skip to the end, just click [![Run in Acorn](https://acorn.io/v1-ui/run/badge?image=ghcr.io+infracloudio+rust-acorn:v1.73.0-0&ref=aashimodi14)](https://acorn.io/run/ghcr.io/infracloudio/rust-acorn:v1.73.0-0?ref=aashimodi14&name=feedback-app)(Click on `Customize before deploying` to update default arguments such as DBName and DBUser) to launch the app immediately in a free sandbox environment. All you need to join is a GitHub ID to create an account.
+[![Run in Acorn](https://acorn.io/v1-ui/run/badge?image=ghcr.io+infracloudio+rust-acorn:v1.73.0-0&ref=aashimodi14)](https://acorn.io/run/ghcr.io/infracloudio/rust-acorn:v1.73.0-0?ref=aashimodi14&name=feedback-app)
 
 > _Note: Everything shown in this tutorial can be found in [this repository](https://github.com/infracloudio/rust-acorn)_.
 ## Pre-requisites
@@ -39,7 +35,7 @@ There are two ways to deploy Rust Feedback App on Acorn Platform.
 1. Using Acorn platform dashboard.
 2. Using CLI
 
-The Acorn Dashboard way is the easiest one where, in just a few clicks you can deploy the Mastodon on the platform and start using it. However, if you want to customize the application use the CLI option.
+The Acorn Dashboard way is the easiest one where, in just a few clicks you can deploy the Rust Feedback app on the platform and start using it. However, if you want to customize the application use the CLI option.
 
 ## Deploying Using Acorn Dashboard
 
@@ -75,7 +71,7 @@ In this option you use the published Acorn application image to deploy the Rust 
 
 ## Deploying Using Acorn CLI
 
-As mentioned previously, running the Acorn application using CLI lets you understand the Acornfile. With the CLI option, you can customize the Mastodon app to your requirement or use your Acorn knowledge to run your own Rust Feedback App.
+As mentioned previously, running the Acorn application using CLI lets you understand the Acornfile. With the CLI option, you can customize the Rust Feedback app to your requirement or use your Acorn knowledge to run your own Rust Feedback App.
 
 To run the application using CLI you first need to clone the source code repository on your machine.
 
@@ -98,7 +94,7 @@ Once cloned here’s how the directory structure will look.
 
 ### Understanding the Acornfile
 
-To run the application we need an Acornfile which describes the whole application without all of the boilerplate of Kubernetes YAML files. The Acorn CLI is used to build, deploy, and operate Acorn on the Acorn cloud platform. It also can work on any Kubernetes cluster running the open source Acorn Runtime.
+To run the application we need an Acornfile which describes the whole application without all of the boilerplate of Kubernetes YAML files. The Acorn CLI is used to build, deploy, and operate Acorn on the Acorn cloud platform. 
 
 Below is the Acornfile for deploying the Rust Feedback App that we created earlier:
 
