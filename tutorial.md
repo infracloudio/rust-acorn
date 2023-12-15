@@ -6,7 +6,7 @@ Unlock the potential of your applications with the dynamic combination of Rust a
 
 Below we delve into the deployment process of an exemplary Rust Feedback application on the Acorn Cloud Platform. This Fullstack Rust application is crafted with Actix, SQLX, and Postgres serving as the backend, while Yew-TailwindCSS takes charge of the frontend. The application utilizes a database service for feedback data storage, enabling users to effortlessly submit ratings and comments through this single-page web app (SPA). Join us on this journey as we uncover the seamless integration of Rust and the Acorn Cloud Platform for a refined feedback experience. 
 
-If you want to skip to the end, just click below button (Click on `Customize before deploying` to update default arguments such as DBName and DBUser) to launch the app immediately in a free sandbox environment. All you need is a GitHub ID to create an account.
+If you want to skip to the end, just click below button to launch the app immediately in a free sandbox environment. All you need is a GitHub ID to create an account.
 
 [![Run in Acorn](https://acorn.io/v1-ui/run/badge?image=ghcr.io+infracloudio+rust-acorn:v1.73.0-0&ref=aashimodi14)](https://acorn.io/run/ghcr.io/infracloudio/rust-acorn:v1.73.0-0?ref=aashimodi14&name=feedback-app)
 
